@@ -1,0 +1,33 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Monitor special",
+            "price": 1000,
+            "image": "https://picsum.photos/200/300",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        },
+        {
+            "id": 2,
+            "name": "Keyboard special",
+            "price": 100,
+            "image": "https://picsum.photos/200/300",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        },
+        {
+            "id": 3,
+            "name": "Mouse special",
+            "price": 200,
+            "image": "https://picsum.photos/200/300",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        },
+        {
+            "id": 4,
+            "name": "PC special",
+            "price": 3000,
+            "image": "https://picsum.photos/200/300",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        }
+        
+    ]
+}
