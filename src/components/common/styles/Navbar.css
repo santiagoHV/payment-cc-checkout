@@ -1,0 +1,15 @@
+.navbar{
+    background-color: white !important;
+    color: #3b3838 !important;
+    height: 70px;
+}
+
+.navbar__container{
+    height: 100% !important;
+    color: #3b3838 !important;
+}
+
+.navbar__box{
+    height: 100% !important;
+    color: #3b3838 !important;
+}

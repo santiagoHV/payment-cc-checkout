@@ -1,5 +1,5 @@
 import { expect, it, describe } from "vitest";
-import productReducer from "../../../../src/features/ProductPage/reducer";
+import productReducer from "../../../../src/features/ProductPage/reducers/productPageReducer";
 
 describe("ProductPage reducer", () => {
     it("should return the initial state", () => {

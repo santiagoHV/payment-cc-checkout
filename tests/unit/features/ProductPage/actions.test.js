@@ -1,5 +1,5 @@
 import { expect, describe, it, vi } from "vitest";
-import { fetchProduct, FETCH_PRODUCT_ERROR, FETCH_PRODUCT_PENDING, FETCH_PRODUCT_SUCCESS } from "../../../../src/features/ProductPage/actions";
+import { fetchProduct, FETCH_PRODUCT_ERROR, FETCH_PRODUCT_PENDING, FETCH_PRODUCT_SUCCESS } from "../../../../src/features/ProductPage/actions/productPageActions";
 import api from "../../../../src/api/api";
 
 describe("ProductPage actions", () => {

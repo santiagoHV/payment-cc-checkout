@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "../../../api/api";
 
 export const FETCH_PRODUCT_SUCCESS = "FETCH_PRODUCT_SUCCESS";
 export const FETCH_PRODUCT_PENDING = "FETCH_PRODUCT_PENDING";

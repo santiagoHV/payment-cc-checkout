@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT_PENDING, FETCH_PRODUCT_ERROR, FETCH_PRODUCT_SUCCESS } from "./actions";
+import { FETCH_PRODUCT_PENDING, FETCH_PRODUCT_ERROR, FETCH_PRODUCT_SUCCESS } from "../actions/productPageActions";
 
 const initialState = {
     product: {},

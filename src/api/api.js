@@ -1,4 +1,5 @@
 import productsData from '../data/products.json';
+// import cardsData from '../data/cards.json';
 
 const fetchProducts = () => {
   return new Promise((resolve) => {
@@ -17,6 +18,8 @@ const fetchProductById = (id) => {
     }
     )
 }
+
+//Logic of fake payment
 
 export default {
     fetchProducts,

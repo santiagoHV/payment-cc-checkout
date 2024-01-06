@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Button, Container, Grid } from "@mui/material"
-import { fetchProduct } from "../actions"
+import { fetchProduct } from "../actions/productPageActions"
 import PaymentModal from "./PaymentModal"
 import './ProductPage.css'
 
@@ -38,14 +38,33 @@ const ProductPage = () => {
         <Container maxWidth="lg" className="product-page">
             <Grid container spacing={2}>
                 <Grid item md={6}>
-                    <img src={product.image} alt={product.name} />
+                    <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="product-image"
+                    />
                 </Grid>
                 <Grid item md={6}>
-                    <h2>{product.name}</h2>
+                    <h2 className="product-name">{product.name}</h2>
+                    <h3>Overview</h3>
                     <p>{product.overview}</p>
+                    <h3>Details</h3>
                     <p>{product.details}</p>
-                    <p>{product.price}</p>
-                    <Button onClick={handlePaymentModalOpen}>Open modal</Button>
+                    <p className="price-text">Price: ${product.price}</p>
+
+                    <Grid container spacing={2}>
+                        <Grid item>
+                            <Button variant="contained"
+                                onClick={handlePaymentModalOpen}
+                            >
+                                BUY NOW
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained">ADD TO CART</Button>
+                        </Grid>
+                    </Grid>
+                    
                 </Grid>
             </Grid>
             <PaymentModal 

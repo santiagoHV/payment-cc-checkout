@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../../../components/common/Modal";
-import UserDataForm from "./UserDataForm";
-import CreditCardForm from "./CreditCardForm";
+import UserDataForm from "../../../components/feature-specific/payment/UserDataForm";
+import CreditCardForm from "../../../components/feature-specific/payment/CreditCardForm";
 
 const PaymentModal = ({open, onClose, onConfirmPayment}) => {
     const [currentStep, setCurrentStep] = useState(1)
