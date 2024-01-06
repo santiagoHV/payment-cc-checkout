@@ -1,4 +1,4 @@
-import api from "../../../api/api";
+import service from "../../../services/fakeApi/productsService"
 
 export const FETCH_PRODUCT_SUCCESS = "FETCH_PRODUCT_SUCCESS";
 export const FETCH_PRODUCT_PENDING = "FETCH_PRODUCT_PENDING";
@@ -24,7 +24,7 @@ export const fetchProduct = (productId) => {
         dispatch(fetchProductPending());
 
         try{
-            const product = await api.fetchProductById(productId);
+            const product = await service.fetchProductById(productId);
             dispatch(fetchProductSuccess(product));
         } catch (error) {
             console.error(error);

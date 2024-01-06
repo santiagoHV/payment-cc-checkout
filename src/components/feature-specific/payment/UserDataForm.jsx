@@ -1,84 +1,82 @@
 import { Button, TextField, Box, FormLabel, FormControl, Select, InputAdornment, MenuItem, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import "./styles/UserDataForm.css";
+import { useSelector } from "react-redux";
 
-const UserDataForm = ({nextStep}) => {
-    const [userData, setUserData] = useState({
-        fullName: "",
-        email: "",
-        phone: "",
-        country: "1",
-    });
+const UserDataForm = ({onNextStep, onChange}) => {
+    const userData = useSelector(state => state.paymentReducer.userData)
 
-    const handleChange = (event) => {
-        setUserData({
-            ...userData,
-            [event.target.name]: event.target.value,
-        })
-    }
-
-    const handleSubmit = (event) => {
+    
+    const handleSubmit = () => {
         if(!userData.fullName || !userData.email || !userData.phone) {
             alert("Please fill all the fields")
         } else {
-            nextStep()
+            onNextStep()
         }
     }
 
     return (
         <Box
             component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 1},
-            }}
             noValidate
             autoComplete="off"
-            className="user-data-form"
         >
             <h2>
                 <Button>{"<-"}</Button>
                 Ingresa tus datos
             </h2>
-            <FormControl className="form-control" >
-                <FormLabel>Nombres y Apellidos</FormLabel>
-                <TextField 
-                    value={userData.fullName}
-                    onChange={handleChange}
-                    name="fullName"
-                />
-            </FormControl>
-            <FormControl className="form-control" >
-                <FormLabel>Correo electrónico</FormLabel>
-                <TextField 
-                    value={userData.email}
-                    onChange={handleChange}
-                    name="email"
-                />
-            </FormControl>
-            <FormControl className="form-control" >
-                <FormLabel>Celular o Número telefónico</FormLabel>
-                <Grid container>
-                    <Grid item xs={3}>
-                        <Select
-                            name="country"
-                            onChange={handleChange}
-                            value={userData.country}
-                        >
-                            <MenuItem value="1">+1</MenuItem>
-                            <MenuItem value="44">+44</MenuItem>
-                        </Select>
-                    </Grid>
-                    <Grid item xs={9}>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <FormControl className="form-control" >
+                        <FormLabel>Nombres y Apellidos</FormLabel>
                         <TextField 
-                            fullWidth
-                            value={userData.phone}
-                            onChange={handleChange}
-                            name="phone"
+                            value={userData.fullName}
+                            onChange={onChange}
+                            name="fullName"
                         />
-                    </Grid>
+                    </FormControl>
                 </Grid>
-            </FormControl>
-            <Button variant="contained" onClick={nextStep}>Continua con tu pago</Button>
+                <Grid item xs={12}>
+                    <FormControl className="form-control" >
+                        <FormLabel>Correo electrónico</FormLabel>
+                        <TextField 
+                            value={userData.email}
+                            onChange={onChange}
+                            name="email"
+                        />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormLabel>Celular o Número telefónico</FormLabel>
+                    <Grid container spacing={1}>
+                        <Grid item xs={3}>
+                            <FormControl className="form-control" >
+                                <Select
+                                    name="country"
+                                    onChange={onChange}
+                                    value={userData.country}
+                                >
+                                    <MenuItem value="1">+1</MenuItem>
+                                    <MenuItem value="44">+44</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <FormControl className="form-control" >
+                                <TextField 
+                                    value={userData.phone}
+                                    onChange={onChange}
+                                    name="phone"
+                                />
+                            </FormControl>
+                        </Grid>
+                    </Grid>                    
+                </Grid>
+            </Grid>
+            
+            
+            
+            <Button variant="contained" onClick={handleSubmit}>Continua con tu pago</Button>
         </Box>
     );
 }

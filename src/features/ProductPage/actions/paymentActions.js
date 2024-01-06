@@ -1,33 +1,54 @@
-import api from "../../../api/api";
+import { toast } from "react-toastify";
+import service from "../../../services/fakeApi/paymentService"
 
-export const FETCH_PAYMENT_SUCCESS = "FETCH_PAYMENT_SUCCESS";
-export const FETCH_PAYMENT_PENDING = "FETCH_PAYMENT_PENDING";
-export const FETCH_PAYMENT_ERROR = "FETCH_PAYMENT_ERROR";
+export const SUBMIT_PAYMENT_SUCCESS = "SUBMIT_PAYMENT_SUCCESS";
+export const SUBMIT_PAYMENT_PENDING = "SUBMIT_PAYMENT_PENDING";
+export const SUBMIT_PAYMENT_ERROR = "SUBMIT_PAYMENT_ERROR";
+export const UPDATE_CARD_DATA = "UPDATE_CARD_DATA";
+export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
 
-export const fetchPaymentSuccess = (payment) => ({
-    type: FETCH_PAYMENT_SUCCESS,
-    payload: payment
+export const submitPaymentSuccess = (payment) => (dispatch) =>{
+    dispatch({
+        type: SUBMIT_PAYMENT_SUCCESS,
+        payload: payment
+    })
+
+    toast.success("Payment Successful");
+}
+
+export const submitPaymentError = (error) => (dispatch) =>{
+    dispatch({
+        type: SUBMIT_PAYMENT_ERROR,
+        payload: error
+    })
+
+    toast.error(error.message);
+}
+
+export const submitPaymentPending = () => ({
+    type: SUBMIT_PAYMENT_PENDING
 })
 
-export const fetchPaymentError = (error) => ({
-    type: FETCH_PAYMENT_ERROR,
-    payload: error
+export const updateCardData = (cardData) => ({
+    type: UPDATE_CARD_DATA,
+    payload: cardData
 })
 
-export const fetchPaymentPending = () => ({
-    type: FETCH_PAYMENT_PENDING
+export const updateUserData = (userData) => ({
+    type: UPDATE_USER_DATA,
+    payload: userData
 })
 
-export const fetchPayment = (paymentId) => {
+export const submitPayment = (paymentData) => {
     return async (dispatch) => {
-        dispatch(fetchPaymentPending());
+        dispatch(submitPaymentPending());
 
         try{
-            const payment = await api.fetchPaymentById(paymentId);
-            dispatch(fetchPaymentSuccess(payment));
+            const payment = await service.createPayment(paymentData);
+            dispatch(submitPaymentSuccess(payment));
         } catch (error) {
             console.error(error);
-            dispatch(fetchPaymentError(error));
+            dispatch(submitPaymentError(error));
         }
     }
 }

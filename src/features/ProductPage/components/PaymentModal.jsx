@@ -3,26 +3,31 @@ import Modal from "../../../components/common/Modal";
 import UserDataForm from "../../../components/feature-specific/payment/UserDataForm";
 import CreditCardForm from "../../../components/feature-specific/payment/CreditCardForm";
 
-const PaymentModal = ({open, onClose, onConfirmPayment}) => {
-    const [currentStep, setCurrentStep] = useState(1)
-
-    const handleNextStep = () => {
-        setCurrentStep(currentStep + 1)
-    }
-
-    const handleConfirmPayment = () => {
-        setCurrentStep(1)
-        onConfirmPayment()
-        onClose()
-    }
-
+const PaymentModal = ({
+    open,
+    onClose, 
+    paymentStep: currentStep,
+    onNextStep,
+    onBackStep,
+    onChangePaymentUserData, 
+    onChangePaymentCardData, 
+    onConfirmPayment
+}) => {
     
     const renderStepContent = () => {
         switch (currentStep) {
             case 1:
-                return <UserDataForm nextStep={handleNextStep} />
+                return <UserDataForm
+                    onChange={onChangePaymentUserData}
+                    onNextStep={onNextStep}
+                    onBackStep={onBackStep}
+                />
             case 2:
-                return <CreditCardForm onConfirmPayment={handleConfirmPayment} />
+                return <CreditCardForm
+                    onChange={onChangePaymentCardData}
+                    onBackStep={onBackStep}
+                    onConfirmPayment={onConfirmPayment}
+                />
             default:
                 return null
         }

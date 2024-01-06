@@ -3,16 +3,41 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Button, Container, Grid } from "@mui/material"
 import { fetchProduct } from "../actions/productPageActions"
+import { updateCardData, updateUserData, submitPayment } from "../actions/paymentActions"
 import PaymentModal from "./PaymentModal"
 import './ProductPage.css'
+import { toast } from "react-toastify"
 
 const ProductPage = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
-    const product = useSelector(state => state.productReducer.product)
-    const loading = useSelector(state => state.productReducer.loading)
-    const error = useSelector(state => state.productReducer.error)
+    const {product, loading, error} = useSelector(state => state.productReducer)
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+    const [paymentStep, setPaymentStep] = useState(1)
+    const paymentUserData = useSelector(state => state.paymentReducer.userData)
+    const paymentCardData = useSelector(state => state.paymentReducer.cardData)
+
+    const handleChangePaymentUserData = (event) => {
+        dispatch(updateUserData({
+            ...paymentUserData,
+            [event.target.name]: event.target.value,
+        }))
+    }
+    
+    const handleChangePaymentCardData = (event) => {
+        dispatch(updateCardData({
+            ...paymentCardData,
+            [event.target.name]: event.target.value,
+        }))
+    }
+
+    const handleNextStep = () => {
+        setPaymentStep(paymentStep + 1)
+    }
+
+    const handleBackStep = () => {
+        setPaymentStep(paymentStep - 1)
+    }
 
     const handlePaymentModalOpen = () => {
         setIsPaymentModalOpen(true)
@@ -22,9 +47,17 @@ const ProductPage = () => {
         setIsPaymentModalOpen(false)
     }
 
-    const handleConfirmPayment = () => {
-        //TODO: Send payment data to backend
-        alert("Payment confirmed")
+    const handleAddToCart = () => {
+        toast.info("Lo sentimos, esta funcionalidad no está disponible aún")
+    }
+
+    const handleConfirmPayment = async() => {
+        try{
+            const payment = await dispatch(submitPayment(paymentUserData, paymentCardData))
+            setIsPaymentModalOpen(false)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -61,7 +94,11 @@ const ProductPage = () => {
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained">ADD TO CART</Button>
+                            <Button 
+                                variant="contained"
+                                onClick={handleAddToCart}
+                            >
+                                ADD TO CART</Button>
                         </Grid>
                     </Grid>
                     
@@ -70,6 +107,11 @@ const ProductPage = () => {
             <PaymentModal 
                 open={isPaymentModalOpen} 
                 onClose={handlePaymentModalClose}
+                paymentStep={paymentStep}
+                onBackStep={handleBackStep}
+                onNextStep={handleNextStep}
+                onChangePaymentUserData={handleChangePaymentUserData}
+                onChangePaymentCardData={handleChangePaymentCardData}
                 onConfirmPayment={handleConfirmPayment}
             />
         </Container>

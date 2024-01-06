@@ -1,33 +1,18 @@
-import { Button, Grid, TextField, FormControl, FormLabel, Select, MenuItem } from "@mui/material";
-import React, {useState} from "react";
+import { Button, Grid, TextField, FormControl, FormLabel, Select, MenuItem, Box } from "@mui/material";
+import React from "react";
 import "./styles/CreditCardForm.css";
+import { useSelector } from "react-redux";
 
 const months = [1,2,3,4,5,6,7,8,9,10,11,12]
 const years = [2021,2022,2023,2024,2025,2026,2027,2028,2029,2030]
 const identificationTypes = ["CC", "CE", "TI", "PPN"]
 
-const CreditCardForm = ({onConfirmPayment}) => {
-    const [cardData, setCardData] = useState({
-        cardNumber: "",
-        cardHolder: "",
-        expirationMonth: 1,
-        expirationYear: 2025,
-        cvv: "",
-        indentificationType: "CC",
-        identificationNumber: "",
-        cuoteNumber: "",
-        acceptPolicy: false,
-    })
+const CreditCardForm = ({onConfirmPayment, onChange}) => {
+    const cardData = useSelector(state => state.paymentReducer.cardData)
 
-    const handleChange = (event) => {
-        setCardData({
-            ...cardData,
-            [event.target.name]: event.target.value,
-        })
-    }
 
-    const handleSubmit = (event) => {
-        if(!cardData.cardNumber || !cardData.cardHolder || !cardData.expirationDate || !cardData.cvv) {
+    const handleSubmit = () => {
+        if(!cardData.cardNumber || !cardData.cardHolder || !cardData.expirationMonth || !cardData.cvc) {
             alert("Please fill all the fields")
         } else {
             onConfirmPayment()
@@ -35,7 +20,11 @@ const CreditCardForm = ({onConfirmPayment}) => {
     }
 
     return (
-        <div>
+        <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+        >
             <h2>
                 Paga con tu tarjeta
             </h2>
@@ -48,7 +37,7 @@ const CreditCardForm = ({onConfirmPayment}) => {
                         <TextField 
                             label=""
                             value={cardData.cardNumber}
-                            onChange={handleChange}
+                            onChange={onChange}
                             name="cardNumber"
                         />
                     </FormControl>
@@ -60,7 +49,7 @@ const CreditCardForm = ({onConfirmPayment}) => {
                                 <FormLabel>Expira el</FormLabel>
                                 <Select
                                     name="expirationMonth"
-                                    onChange={handleChange}
+                                    onChange={onChange}
                                     value={cardData.expirationMonth}
                                 >
                                     {months.map((month) => (
@@ -79,7 +68,7 @@ const CreditCardForm = ({onConfirmPayment}) => {
                                 <FormLabel>&nbsp;</FormLabel>
                                 <Select 
                                     name="expirationYear"
-                                    onChange={handleChange}
+                                    onChange={onChange}
                                     value={cardData.expirationYear}
                                     placeholder="Año"
                                 >
@@ -95,11 +84,11 @@ const CreditCardForm = ({onConfirmPayment}) => {
                 </Grid>
                 <Grid item xs={7}>
                     <FormControl className="form-control" >
-                        <FormLabel>CVV (Codigo de seguridad)</FormLabel>
+                        <FormLabel>CVC (Codigo de seguridad)</FormLabel>
                         <TextField 
-                            value={cardData.cvv}
-                            onChange={handleChange}
-                            name="cardNumber"
+                            value={cardData.cvc}
+                            onChange={onChange}
+                            name="cvc"
                         />
                     </FormControl>
                 </Grid>
@@ -108,8 +97,8 @@ const CreditCardForm = ({onConfirmPayment}) => {
                         <FormLabel>Nombre en la tarjeta</FormLabel>
                         <TextField 
                             value={cardData.cardHolder}
-                            onChange={handleChange}
-                            name="cardNumber"
+                            onChange={onChange}
+                            name="cardHolder"
                         />
                     </FormControl>
                 </Grid>
@@ -119,9 +108,9 @@ const CreditCardForm = ({onConfirmPayment}) => {
                         <Grid item xs={3}>
                             <FormControl className="form-control" >
                                 <Select
-                                    name="expirationMonth"
-                                    onChange={handleChange}
+                                    onChange={onChange}
                                     value={cardData.indentificationType}
+                                    name="indentificationType"
                                 >
                                     {identificationTypes.map((type) => (
                                         <MenuItem value={type} key={type}>
@@ -136,8 +125,8 @@ const CreditCardForm = ({onConfirmPayment}) => {
                             <TextField 
                                 fullWidth
                                 value={cardData.identificationNumber}
-                                onChange={handleChange}
-                                name="cardNumber"
+                                onChange={onChange}
+                                name="identificationNumber"
                             />
                             </FormControl>
                         </Grid>
@@ -148,8 +137,8 @@ const CreditCardForm = ({onConfirmPayment}) => {
                         <FormLabel>Número de cuotas</FormLabel>
                         <TextField 
                             value={cardData.cuoteNumber}
-                            onChange={handleChange}
-                            name="cardNumber"
+                            onChange={onChange}
+                            name="cuoteNumber"
                             type="number"
                         />
                     </FormControl>
@@ -157,7 +146,7 @@ const CreditCardForm = ({onConfirmPayment}) => {
             </Grid>
 
             <Button variant="contained" onClick={handleSubmit}>Finalizar pago</Button>
-        </div>
+        </Box>
     );
 }
 

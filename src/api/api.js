@@ -19,9 +19,18 @@ const fetchProductById = (id) => {
     )
 }
 
+const createPayment = (payment) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(payment);
+        }, 5000)
+    })
+}
+
 //Logic of fake payment
 
 export default {
     fetchProducts,
-    fetchProductById
+    fetchProductById,
+    createPayment
 }
