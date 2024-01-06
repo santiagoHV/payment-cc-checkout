@@ -3,9 +3,11 @@
         {
             "id": 1,
             "name": "Monitor special",
+            "subname": "Referencia 1234",
             "price": 1000,
-            "image": "https://picsum.photos/200/300",
-            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+            "image": "https://picsum.photos/500/400",
+            "overview": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
+            "details": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
         },
         {
             "id": 2,
