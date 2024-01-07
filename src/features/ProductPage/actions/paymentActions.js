@@ -29,15 +29,27 @@ export const submitPaymentPending = () => ({
     type: SUBMIT_PAYMENT_PENDING
 })
 
-export const updateCardData = (cardData) => ({
-    type: UPDATE_CARD_DATA,
-    payload: cardData
-})
+export const updateCardData = (cardData) => (dispatch) => {
+    if(cardData.expirationMonth === '') cardData.expirationMonth = 1;
+    if(cardData.expirationYear === '') cardData.expirationYear = 2020;
+    if(cardData.identificationType === '') cardData.identificationType = 'CC';
 
-export const updateUserData = (userData) => ({
-    type: UPDATE_USER_DATA,
-    payload: userData
-})
+    dispatch({
+        type: UPDATE_CARD_DATA,
+        payload: cardData
+    })
+
+    localStorage.setItem("cardData", JSON.stringify(cardData));
+}
+
+export const updateUserData = (userData) => (dispatch) => {
+    dispatch({
+        type: UPDATE_USER_DATA,
+        payload: userData
+    })  
+
+    localStorage.setItem("userData", JSON.stringify(userData));
+}
 
 export const submitPayment = (paymentData) => {
     return async (dispatch) => {

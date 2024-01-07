@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { Button, Container, Grid } from "@mui/material"
+import { Button, CircularProgress, Container, Grid } from "@mui/material"
 import { fetchProduct } from "../actions/productPageActions"
 import { updateCardData, updateUserData, submitPayment } from "../actions/paymentActions"
 import PaymentModal from "./PaymentModal"
@@ -11,13 +11,24 @@ import { toast } from "react-toastify"
 const ProductPage = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
-    const {product, loading, error} = useSelector(state => state.productReducer)
+    const {product, loading: loadingProduct, error} = useSelector(state => state.productReducer)
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
     const [paymentStep, setPaymentStep] = useState(1)
-    const paymentUserData = useSelector(state => state.paymentReducer.userData)
-    const paymentCardData = useSelector(state => state.paymentReducer.cardData)
+    const {userData : paymentUserData, cardData : paymentCardData} = useSelector(state => state.paymentReducer)
+    const { loading : loadingPayment }  = useSelector(state => state.paymentReducer)
+
+    useEffect(() => {
+        dispatch(fetchProduct(id))
+
+        const paymentUserData = JSON.parse(localStorage.getItem('userData'))
+        const paymentCardData = JSON.parse(localStorage.getItem('cardData'))
+        if (paymentUserData) dispatch(updateUserData(paymentUserData))
+        if (paymentCardData) dispatch(updateCardData(paymentCardData))
+     }, [dispatch, id])
 
     const handleChangePaymentUserData = (event) => {
+        console.log(event.target.name, event.target.value)
+        console.log(paymentUserData)
         dispatch(updateUserData({
             ...paymentUserData,
             [event.target.name]: event.target.value,
@@ -25,6 +36,8 @@ const ProductPage = () => {
     }
     
     const handleChangePaymentCardData = (event) => {
+        console.log(event.target.name, event.target.value)
+        console.log(paymentCardData)
         dispatch(updateCardData({
             ...paymentCardData,
             [event.target.name]: event.target.value,
@@ -55,16 +68,43 @@ const ProductPage = () => {
         try{
             const payment = await dispatch(submitPayment(paymentUserData, paymentCardData))
             setIsPaymentModalOpen(false)
+            setPaymentStep(1)
+            dispatch(updateUserData({
+                fullName: "",
+                email: "",
+                phone: "",
+                country: "",
+            }))
+            dispatch(updateCardData({
+                cardNumber: "",
+                cardHolder: "",
+                expirationMonth: 1,
+                expirationYear: 2025,
+                cvc: "",
+                indentificationType: "CC",
+                identificationNumber: "",
+                cuoteNumber: "",
+            }))
+            
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
-       dispatch(fetchProduct(id))
-    }, [dispatch, id])
 
-    if (loading) return <div>Loading...</div>
+    if (loadingProduct) {
+        return <CircularProgress
+                    color="warning"
+                    size={70}
+                    sx={{
+                        position: "fixed",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 2
+                    }}
+                />
+    }
     if (error) return <div>ERROR: {error}</div>
 
     return (
@@ -106,6 +146,7 @@ const ProductPage = () => {
             </Grid>
             <PaymentModal 
                 open={isPaymentModalOpen} 
+                loading={loadingPayment}
                 onClose={handlePaymentModalClose}
                 paymentStep={paymentStep}
                 onBackStep={handleBackStep}

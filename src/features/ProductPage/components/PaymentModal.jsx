@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../../../components/common/Modal";
 import UserDataForm from "../../../components/feature-specific/payment/UserDataForm";
 import CreditCardForm from "../../../components/feature-specific/payment/CreditCardForm";
+import { CircularProgress } from "@mui/material";
 
 const PaymentModal = ({
     open,
     onClose, 
+    loading,
     paymentStep: currentStep,
     onNextStep,
     onBackStep,
@@ -35,7 +37,20 @@ const PaymentModal = ({
 
     return (
         <Modal open={open} onClose={onClose}>
-            {renderStepContent()}
+            {loading ?
+                <CircularProgress
+                    color="inherit"
+                    size={70}
+                    sx={{
+                        position: "fixed",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 2
+                    }}
+                /> :
+                renderStepContent()
+            }
         </Modal>
     );
 }
