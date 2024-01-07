@@ -7,13 +7,16 @@ import { updateCardData, updateUserData, submitPayment } from "../actions/paymen
 import PaymentModal from "./PaymentModal"
 import './ProductPage.css'
 import { toast } from "react-toastify"
+import PaymentSummaryModal from "../../../components/feature-specific/payment/PaymentSummaryModal"
 
 const ProductPage = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const {product, loading: loadingProduct, error} = useSelector(state => state.productReducer)
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+    const [isPaymentSummaryModalOpen, setIsPaymentSummaryModalOpen] = useState(false)
     const [paymentStep, setPaymentStep] = useState(1)
+    const paymentResponse = useSelector(state => state.paymentReducer.paymentResponse)
     const {userData : paymentUserData, cardData : paymentCardData} = useSelector(state => state.paymentReducer)
     const { loading : loadingPayment }  = useSelector(state => state.paymentReducer)
 
@@ -27,8 +30,6 @@ const ProductPage = () => {
      }, [dispatch, id])
 
     const handleChangePaymentUserData = (event) => {
-        console.log(event.target.name, event.target.value)
-        console.log(paymentUserData)
         dispatch(updateUserData({
             ...paymentUserData,
             [event.target.name]: event.target.value,
@@ -36,8 +37,6 @@ const ProductPage = () => {
     }
     
     const handleChangePaymentCardData = (event) => {
-        console.log(event.target.name, event.target.value)
-        console.log(paymentCardData)
         dispatch(updateCardData({
             ...paymentCardData,
             [event.target.name]: event.target.value,
@@ -60,15 +59,25 @@ const ProductPage = () => {
         setIsPaymentModalOpen(false)
     }
 
+    const handlePaymentSummaryModalOpen = () => {
+        setIsPaymentSummaryModalOpen(true)
+    }
+
+    const handlePaymentSummaryModalClose = () => {
+        setIsPaymentSummaryModalOpen(false)
+    }
+
     const handleAddToCart = () => {
         toast.info("Lo sentimos, esta funcionalidad no está disponible aún")
     }
 
     const handleConfirmPayment = async() => {
         try{
-            const payment = await dispatch(submitPayment(paymentUserData, paymentCardData))
+            dispatch(submitPayment({paymentUserData, paymentCardData, product}))
+
             setIsPaymentModalOpen(false)
             setPaymentStep(1)
+            setIsPaymentSummaryModalOpen(true)
             dispatch(updateUserData({
                 fullName: "",
                 email: "",
@@ -85,7 +94,7 @@ const ProductPage = () => {
                 identificationNumber: "",
                 cuoteNumber: "",
             }))
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -144,6 +153,11 @@ const ProductPage = () => {
                     
                 </Grid>
             </Grid>
+            <PaymentSummaryModal 
+                open={isPaymentSummaryModalOpen}
+                onClose={handlePaymentSummaryModalClose}
+                data={paymentResponse}
+            />
             <PaymentModal 
                 open={isPaymentModalOpen} 
                 loading={loadingPayment}
@@ -155,6 +169,7 @@ const ProductPage = () => {
                 onChangePaymentCardData={handleChangePaymentCardData}
                 onConfirmPayment={handleConfirmPayment}
             />
+            
         </Container>
         
     )

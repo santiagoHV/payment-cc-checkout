@@ -52,11 +52,16 @@ export const updateUserData = (userData) => (dispatch) => {
 }
 
 export const submitPayment = (paymentData) => {
+    const data = {
+        card: paymentData.paymentCardData,
+        user: paymentData.paymentUserData,
+        product: paymentData.product
+    }
     return async (dispatch) => {
         dispatch(submitPaymentPending());
 
         try{
-            const payment = await service.createPayment(paymentData);
+            const payment = await service.createPayment(data);
             dispatch(submitPaymentSuccess(payment));
         } catch (error) {
             console.error(error);

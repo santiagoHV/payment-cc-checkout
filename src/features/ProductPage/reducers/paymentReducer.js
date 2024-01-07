@@ -7,7 +7,7 @@ import {
 } from "../actions/paymentActions";
 
 const initialState = {
-    payment: null,
+    paymentStatus: null,
     cardData: {
         cardNumber: "",
         cardHolder: "",
@@ -24,6 +24,7 @@ const initialState = {
         phone: "",
         country: "",
     },
+    paymentResponse: {},
     loading: false,
     error: null
 };
@@ -33,18 +34,21 @@ const paymentReducer = (state = initialState, action) => {
         case SUBMIT_PAYMENT_SUCCESS:
             return {
                 ...state,
-                payment: action.payload,
+                paymentStatus: 'success',
+                paymentResponse: action.payload,
                 loading: false,
             };
         case SUBMIT_PAYMENT_PENDING:
             return {
                 ...state,
+                paymentStatus: 'pending',
                 loading: true,
             };
         case SUBMIT_PAYMENT_ERROR:
             return {
                 ...state,
                 loading: false,
+                paymentStatus: 'error',
                 error: action.payload
             };
         case UPDATE_CARD_DATA:

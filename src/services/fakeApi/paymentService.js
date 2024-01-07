@@ -2,10 +2,9 @@ import api from "../../api/api";
 
 const createPayment = async(paymentData) => {
     try {
-        const payment = await api.createPayment(paymentData);
-        console.log("EL PAGO PASO GONORREA")
-        console.log(payment)
-        return payment;
+        const response = await api.createPayment(paymentData)
+        console.log(response);
+        return response.body;
     
     } catch (error) {
         console.error(error);
