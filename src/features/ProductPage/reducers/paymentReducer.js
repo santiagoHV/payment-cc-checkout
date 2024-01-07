@@ -62,6 +62,8 @@ const paymentReducer = (state = initialState, action) => {
                 userData: action.payload
             };
         default:
+            console.log("Default case");
+            console.log(state);
             return state;
     }
 }

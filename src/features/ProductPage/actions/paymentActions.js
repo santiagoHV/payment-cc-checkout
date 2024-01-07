@@ -34,12 +34,12 @@ export const updateCardData = (cardData) => (dispatch) => {
     if(cardData.expirationYear === '') cardData.expirationYear = 2020;
     if(cardData.identificationType === '') cardData.identificationType = 'CC';
 
+    localStorage.setItem("cardData", JSON.stringify(cardData));
+
     dispatch({
         type: UPDATE_CARD_DATA,
         payload: cardData
     })
-
-    localStorage.setItem("cardData", JSON.stringify(cardData));
 }
 
 export const updateUserData = (userData) => (dispatch) => {
