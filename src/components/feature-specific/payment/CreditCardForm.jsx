@@ -1,5 +1,7 @@
 import { Button, Grid, TextField, FormControl, FormLabel, Select, MenuItem, Box } from "@mui/material";
 import React, {useState} from "react";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import GppGoodIcon from '@mui/icons-material/GppGood';
 import "./styles/CreditCardForm.css";
 import { useSelector } from "react-redux";
 import visaIcon from "../../../assets/img/visa.png";
@@ -10,7 +12,7 @@ const months = [1,2,3,4,5,6,7,8,9,10,11,12]
 const years = [2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030]
 const identificationTypes = ["CC", "CE", "TI", "PPN"]
 
-const CreditCardForm = ({onConfirmPayment, onChange}) => {
+const CreditCardForm = ({onConfirmPayment, onChange, onBackStep}) => {
     const cardData = useSelector(state => state.paymentReducer.cardData)
     const [errors, setErrors] = useState({})
     const [cardType, setCardType] = useState(null)
@@ -80,6 +82,10 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
             validationErrors.cuoteNumber = "El número de cuotas es requerido";
         }
 
+        if(!acceptTerms) {
+            validationErrors.acceptTerms = "Debes aceptar los términos y condiciones";
+        }
+
         return validationErrors;
     }
 
@@ -120,6 +126,9 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
             autoComplete="off"
         >
             <h2>
+                <Button className="back-step-button" onClick={onBackStep}>
+                    <ArrowBackIcon style={{ color: '#DAF95F' }} />
+                </Button>
                 Paga con tu tarjeta
             </h2>
             <b>Aceptamos</b>
@@ -230,7 +239,7 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
                         <FormLabel>Nombre en la tarjeta</FormLabel>
                         <TextField 
                             value={cardData.cardHolder}
-                            onChange={handleCvcChange}
+                            onChange={handleFieldChange}
                             name="cardHolder"
                             error={!!errors.cardHolder}
                             helperText={errors.cardHolder}
@@ -243,7 +252,7 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
                         <Grid item xs={3}>
                             <FormControl className="form-control" >
                                 <Select
-                                    onChange={handleCvcChange}
+                                    onChange={handleFieldChange}
                                     value={cardData.indentificationType}
                                     name="indentificationType"
                                     error={!!errors.indentificationType}
@@ -261,7 +270,7 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
                             <TextField 
                                 fullWidth
                                 value={cardData.identificationNumber}
-                                onChange={handleCvcChange}
+                                onChange={handleFieldChange}
                                 name="identificationNumber"
                                 type="number"
                                 inputMode="numeric" 
@@ -278,7 +287,7 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
                         <FormLabel>Número de cuotas</FormLabel>
                         <TextField 
                             value={cardData.cuoteNumber}
-                            onChange={handleCvcChange}
+                            onChange={handleFieldChange}
                             name="cuoteNumber"
                             type="number"
                             error={!!errors.cuoteNumber}
@@ -286,9 +295,33 @@ const CreditCardForm = ({onConfirmPayment, onChange}) => {
                         />
                     </FormControl>
                 </Grid>
+                <Grid item xs={12}>
+                    <FormControl className="form-control" >
+                        <FormLabel className="accept-terms">
+                            <input 
+                                type="checkbox" 
+                                checked={acceptTerms}
+                                onChange={() => setAcceptTerms(!acceptTerms)}
+                            />
+                            <p>
+                                Acepto haber leído los <b>términos y condiciones y la política de privacidad</b> para hacer este pago
+                            </p>
+                        </FormLabel>
+                        {errors.acceptTerms && <p className="error">{errors.acceptTerms}</p>}
+                    </FormControl>
+                </Grid>
             </Grid>
 
-            <Button variant="contained" onClick={handleSubmit}>Finalizar pago</Button>
+            <div className="submit-button-container">
+                <Button 
+                    variant="contained" 
+                    onClick={handleSubmit}>
+                        <GppGoodIcon 
+                            style={{ color: '#DAF95F' }} />
+                        <span>Finalizar pago</span>
+                        
+                </Button>
+            </div>
         </Box>
     );
 }

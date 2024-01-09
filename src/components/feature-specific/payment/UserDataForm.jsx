@@ -1,7 +1,10 @@
 import { Button, TextField, Box, FormLabel, FormControl, Select, InputAdornment, MenuItem, Grid } from "@mui/material";
 import React, {useState} from "react";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import GppGoodIcon from '@mui/icons-material/GppGood';
 import "./styles/UserDataForm.css";
 import { useSelector } from "react-redux";
+
 
 //paises latinos
 const countries = [
@@ -44,7 +47,7 @@ const countries = [
 ]
 
 
-const UserDataForm = ({onNextStep, onChange}) => {
+const UserDataForm = ({onNextStep, onBackStep, onChange}) => {
     const userData = useSelector(state => state.paymentReducer.userData)
     const [errors, setErrors] = useState({})
 
@@ -103,7 +106,9 @@ const UserDataForm = ({onNextStep, onChange}) => {
             autoComplete="off"
         >
             <h2>
-                <Button>{"<-"}</Button>
+                {/* <Button className="back-step-button" onClick={onBackStep}>
+                    <ArrowBackIcon style={{ color: '#DAF95F' }} />
+                </Button> */}
                 Ingresa tus datos
             </h2>
             <Grid container spacing={1}>
@@ -162,10 +167,16 @@ const UserDataForm = ({onNextStep, onChange}) => {
                     </Grid>                    
                 </Grid>
             </Grid>
-            
-            
-            
-            <Button variant="contained" onClick={handleSubmit}>Continua con tu pago</Button>
+            <div className="next-step-button-container">
+                <Button 
+                    variant="contained" 
+                    onClick={handleSubmit}>
+                        <GppGoodIcon 
+                            style={{ color: '#DAF95F' }} />
+                        <span>Continua con tu pago</span>
+                        
+                </Button>
+            </div>
         </Box>
     );
 }

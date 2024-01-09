@@ -1,4 +1,41 @@
 .form-control{
     width: 100%;
     margin-bottom: 10px !important;
+    font-size: 10px !important;
+}
+
+.next-step-button-container{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 20px !important;
+
+    button{
+        background-color: black !important;
+        color: #DAF95F;
+        border-radius: 30px;
+        font-weight: 900;
+        padding: 15px 40px;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        span{
+            margin-top: 4px;
+        }
+    }
+}
+
+.back-step-button{
+    background-color: black !important;
+    color: #DAF95F;
+    border-radius: 30px !important;
+    padding: 5px 0px !important;
+    max-width: 20px !important;
+    margin-right: 20px !important;
+
+    
 }
