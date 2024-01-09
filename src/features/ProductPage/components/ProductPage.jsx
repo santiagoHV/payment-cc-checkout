@@ -140,7 +140,7 @@ const ProductPage = () => {
                                 <Button variant="contained"
                                     onClick={handlePaymentModalOpen}
                                 >
-                                    BUY NOW
+                                    PAGAR CON TARJETA DE CRÉDITO
                                 </Button>
                             </Grid>
                             <Grid item>
@@ -148,7 +148,7 @@ const ProductPage = () => {
                                     variant="contained"
                                     onClick={handleAddToCart}
                                 >
-                                    ADD TO CART</Button>
+                                    AÑADIR AL CARRITO</Button>
                             </Grid>
                         </Grid>
                         
