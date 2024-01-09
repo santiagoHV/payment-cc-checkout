@@ -148,7 +148,7 @@ const UserDataForm = ({onNextStep, onBackStep, onChange}) => {
                                     error={!!errors.country}
                                 >
                                     {countries.map((country, index) => (
-                                        <MenuItem key={index} value={country.code}>{country.code}</MenuItem>
+                                        <MenuItem key={index} value={country.code}>+ {country.code}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>

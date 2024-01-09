@@ -46,7 +46,7 @@ const createPayment = (payment) => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(response);
-        }, 500)
+        }, 2000)
     })
 }
 

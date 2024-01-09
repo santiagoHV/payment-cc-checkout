@@ -78,6 +78,7 @@ const ProductPage = () => {
             setIsPaymentModalOpen(false)
             setPaymentStep(1)
             setIsPaymentSummaryModalOpen(true)
+
             dispatch(updateUserData({
                 fullName: "",
                 email: "",
@@ -158,6 +159,7 @@ const ProductPage = () => {
                     open={isPaymentSummaryModalOpen}
                     onClose={handlePaymentSummaryModalClose}
                     data={paymentResponse}
+                    loading={loadingPayment}
                 />
                 <PaymentModal 
                     open={isPaymentModalOpen} 

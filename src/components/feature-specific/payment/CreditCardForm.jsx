@@ -54,8 +54,10 @@ const CreditCardForm = ({onConfirmPayment, onChange, onBackStep}) => {
     const validateFields = () => {
         const validationErrors = {};
 
-        if (!cardData.cardNumber || cardData.cardNumber.replace(/\s/g, "").length !== 16) {
+        if (!cardData.cardNumber) {
             validationErrors.cardNumber = "El número de tarjeta es requerido";
+        }else if(cardData.cardNumber.replace(/\s/g, "").length !== 16){
+            validationErrors.cardNumber = "El número de tarjeta debe tener 16 dígitos";
         }
 
         if (!cardData.cardHolder) {
@@ -66,8 +68,10 @@ const CreditCardForm = ({onConfirmPayment, onChange, onBackStep}) => {
             validationErrors.expirationMonth = "El mes de expiración es requerido";
         }
 
-        if (!cardData.cvc || cardData.cvc.length !== 3 || !/^\d+$/.test(cardData.cvc)) {
+        if (!cardData.cvc) {
             validationErrors.cvc = "El código de seguridad es requerido";
+        } else if(cardData.cvc.length !== 3 || !/^\d+$/.test(cardData.cvc)){
+            validationErrors.cvc = "El código de seguridad debe tener 3 dígitos";
         }
 
         if(!cardData.indentificationType) {
@@ -302,6 +306,9 @@ const CreditCardForm = ({onConfirmPayment, onChange, onBackStep}) => {
                                 type="checkbox" 
                                 checked={acceptTerms}
                                 onChange={() => setAcceptTerms(!acceptTerms)}
+                                name="acceptTerms"
+                                error={!!errors.acceptTerms}
+                                helperText={errors.acceptTerms}
                             />
                             <p>
                                 Acepto haber leído los <b>términos y condiciones y la política de privacidad</b> para hacer este pago

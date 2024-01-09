@@ -11,6 +11,7 @@ const Modal = ({ open, children, onClose }) => {
         bgcolor: 'background.paper',
         border: '1px solid #000',
         boxShadow: 12,
+        maxWidth: "500px",
         p: 4,
         overflow: "auto",
         "@media (max-width: 600px)": {
