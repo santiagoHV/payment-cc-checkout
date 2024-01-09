@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { Button, CircularProgress, Container, Grid } from "@mui/material"
+import { Box, Button, CircularProgress, Container, Grid } from "@mui/material"
 import { fetchProduct } from "../actions/productPageActions"
 import { updateCardData, updateUserData, submitPayment } from "../actions/paymentActions"
 import PaymentModal from "./PaymentModal"
@@ -118,58 +118,59 @@ const ProductPage = () => {
 
     return (
         <Container maxWidth="lg" className="product-page">
-            <Grid container spacing={2}>
-                <Grid item md={6}>
-                    <img 
-                        src={product.image} 
-                        alt={product.name} 
-                        className="product-image"
-                    />
-                </Grid>
-                <Grid item md={6}>
-                    <h2 className="product-name">{product.name}</h2>
-                    <h3>Overview</h3>
-                    <p>{product.overview}</p>
-                    <h3>Details</h3>
-                    <p>{product.details}</p>
-                    <p className="price-text">Price: ${product.price}</p>
-
-                    <Grid container spacing={2}>
-                        <Grid item>
-                            <Button variant="contained"
-                                onClick={handlePaymentModalOpen}
-                            >
-                                BUY NOW
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button 
-                                variant="contained"
-                                onClick={handleAddToCart}
-                            >
-                                ADD TO CART</Button>
-                        </Grid>
+            <Box sx={{mb:5}}>
+                <Grid container spacing={2}>
+                    <Grid item md={6}>
+                        <img 
+                            src={product.image} 
+                            alt={product.name} 
+                            className="product-image"
+                        />
                     </Grid>
-                    
+                    <Grid item md={6}>
+                        <h2 className="product-name">{product.name}</h2>
+                        <h3>Overview</h3>
+                        <p>{product.overview}</p>
+                        <h3>Details</h3>
+                        <p>{product.details}</p>
+                        <p className="price-text">Price: ${product.price}</p>
+
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <Button variant="contained"
+                                    onClick={handlePaymentModalOpen}
+                                >
+                                    BUY NOW
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button 
+                                    variant="contained"
+                                    onClick={handleAddToCart}
+                                >
+                                    ADD TO CART</Button>
+                            </Grid>
+                        </Grid>
+                        
+                    </Grid>
                 </Grid>
-            </Grid>
-            <PaymentSummaryModal 
-                open={isPaymentSummaryModalOpen}
-                onClose={handlePaymentSummaryModalClose}
-                data={paymentResponse}
-            />
-            <PaymentModal 
-                open={isPaymentModalOpen} 
-                loading={loadingPayment}
-                onClose={handlePaymentModalClose}
-                paymentStep={paymentStep}
-                onBackStep={handleBackStep}
-                onNextStep={handleNextStep}
-                onChangePaymentUserData={handleChangePaymentUserData}
-                onChangePaymentCardData={handleChangePaymentCardData}
-                onConfirmPayment={handleConfirmPayment}
-            />
-            
+                <PaymentSummaryModal 
+                    open={isPaymentSummaryModalOpen}
+                    onClose={handlePaymentSummaryModalClose}
+                    data={paymentResponse}
+                />
+                <PaymentModal 
+                    open={isPaymentModalOpen} 
+                    loading={loadingPayment}
+                    onClose={handlePaymentModalClose}
+                    paymentStep={paymentStep}
+                    onBackStep={handleBackStep}
+                    onNextStep={handleNextStep}
+                    onChangePaymentUserData={handleChangePaymentUserData}
+                    onChangePaymentCardData={handleChangePaymentCardData}
+                    onConfirmPayment={handleConfirmPayment}
+                />
+            </Box>
         </Container>
         
     )
